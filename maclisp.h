@@ -112,6 +112,7 @@ int ap; //arglist pointer
 #define ARG_LEN3_ERR	8
 #define MALFORM_ERR		9
 #define CANT_READ_ERR	10
+#define CANT_OPEN_ERR   14
 #define ILLEGAL_OBJ_ERR 11
 
 //-------arg check code--

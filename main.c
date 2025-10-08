@@ -1281,6 +1281,12 @@ void error(int errnum, char *fun, int arg)
 	    break;
 	}
 
+    case CANT_OPEN_ERR:{
+	    printf("%s can't open of ", fun);
+	    break;
+	}
+
+
     case ILLEGAL_OBJ_ERR:{
 	    printf("%s got an illegal object ", fun);
 	    print(arg);
@@ -2659,8 +2665,8 @@ int f_ledit(int arglist)
     strcat(str," ");
     strcat(str,GET_NAME(arg1));
     res = system(str);
-    //if (res == -1)
-	//error(SYSTEM_ERR, "edit", arg1, th);
+    if (res == -1)
+	error(CANT_OPEN_ERR, "ledit", arg1);
     f_load(arglist);
     return (T);
 }
