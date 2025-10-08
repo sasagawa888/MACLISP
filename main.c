@@ -1562,6 +1562,7 @@ void initsubr(void)
     defsubr("set", f_set);
     defsubr("not", f_not);
     defsubr("load", f_load);
+    defsubr("ledit", f_ledit);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -2623,7 +2624,7 @@ int f_load(int arglist)
 {
     int arg1;
     checkarg(LEN1_TEST, "load", arglist);
-    //checkarg(STR_TEST, "load", car(arglist));
+    checkarg(STRING_TEST, "load", car(arglist));
     arg1 = car(arglist);
 
     input_stream = fopen(GET_NAME(arg1), "r");
@@ -2640,6 +2641,27 @@ int f_load(int arglist)
     }
     fclose(input_stream);
     input_stream = stdin;
+    return (T);
+}
+
+int f_ledit(int arglist)
+{
+    int arg1,res;
+    char str[SYMSIZE];
+
+    arg1 = car(arglist);
+    char *ed;
+	if ((ed = getenv("EDITOR")) == NULL) {
+	    strcpy(str,"edlis");
+	} else 
+        strcpy(str,ed);
+    
+    strcat(str," ");
+    strcat(str,GET_NAME(arg1));
+    res = system(str);
+    //if (res == -1)
+	//error(SYSTEM_ERR, "edit", arg1, th);
+    f_load(arglist);
     return (T);
 }
 
