@@ -34,27 +34,7 @@ int main(int argc, char *argv[])
     initcell();
     initsubr();
 
-    /*
-    if (argc < 2) {
-	fprintf(stderr, "Usage: %s <lisp_file>\n", argv[0]);
-	return 1;
-    }
-
-    input_stream = fopen(argv[1], "r");
-    if (!input_stream) {
-	perror("Cannot open file");
-	return 1;
-    }
-    int exp;
-
-    while (1) {
-	exp = read();
-	if (exp == EOF)
-	    break;
-	eval(exp);
-    }
-    fclose(input_stream);
-    */
+    
     input_stream = stdin;
     int ret = setjmp(buf);
 
@@ -1325,6 +1305,12 @@ void error(int errnum, char *fun, int arg)
 	    break;
 	}
 
+    case ARG_STR_ERR:{
+	    printf("%s require string but got ", fun);
+	    print(arg);
+	    break;
+	}
+
     case ARG_LIS_ERR:{
 	    printf("%s require list but got ", fun);
 	    print(arg);
@@ -1384,6 +1370,11 @@ void checkarg(int test, char *fun, int arg)
 	    return;
 	else
 	    error(ARG_NUM_ERR, fun, arg);
+    case STRING_TEST:
+    if (stringp(arg))
+	    return;
+	else
+	    error(ARG_STR_ERR, fun, arg);
     case LIST_TEST:
 	if (listp(arg))
 	    return;

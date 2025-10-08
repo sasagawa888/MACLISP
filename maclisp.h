@@ -103,6 +103,7 @@ int ap; //arglist pointer
 #define CANT_FIND_ERR	1
 #define ARG_SYM_ERR		2
 #define ARG_INT_ERR		12
+#define ARG_STR_ERR     13
 #define ARG_NUM_ERR		3
 #define ARG_LIS_ERR		4
 #define ARG_LEN0_ERR	5
@@ -128,6 +129,7 @@ int ap; //arglist pointer
 #define COND_TEST		11	
 #define DEFLIST_TEST	12
 #define SYMLIST_TEST	13
+#define STRING_TEST	    14
 
 
 void initcell(void);
