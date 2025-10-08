@@ -59,7 +59,7 @@ You can force garbage collection by using (gbc 1).
 ### Trace/Untrace
 example
 ```
-LISP 1.5
+MACLISP 1981
 > (trace 'fact)
 T
 > (fact 3)
