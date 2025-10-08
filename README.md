@@ -16,7 +16,7 @@ Usage
 
 Start the interpreter by running:
 ```
-lisp punch.lsp
+lisp winston.lsp
 ```
 Exit the interpreter by typing:
 ```
@@ -38,7 +38,7 @@ Exit the interpreter by typing:
 
 ```
 MACLISP 1981
-> (define ((foo (lambda (x) x))))
+> (defun foo (x) (x))
 T
 > (foo 3)
 3
@@ -49,7 +49,7 @@ T
 
 ## Notes
 
-This is not a full Lisp 1.5 implementation, but a simplified version that captures the feel of the original.
+This is not a full MACLISP implementation, but a simplified version that captures the feel of the original.
 
 Dynamic scoping is used.
 

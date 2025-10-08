@@ -1,0 +1,85 @@
+;verify
+
+(DEFINE (
+    (TEST (LAMBDA (S X Y)
+            (IF (EQUAL X Y)
+                T
+                (PROGN (PRIN1 S) (PRIN1 '->) (PRINT 'ERROR)))))
+))
+
+
+;; Numeric operation tests
+(TEST 'PLUS (PLUS 1 2) 3)
+(TEST 'DIFFERENCE (DIFFERENCE 5 3) 2)
+(TEST 'TIMES (TIMES 2 4) 8)
+(TEST 'QUOTIENT (QUOTIENT 7 2) 3)
+(TEST 'DIVIDE (DIVIDE 7 2) '(3 1))
+(TEST 'ADD1 (ADD1 4) 5)
+(TEST 'SUB1 (SUB1 4) 3)
+(TEST 'REMAINDER (REMAINDER 7 3) 1)
+(TEST 'EXPT (EXPT 2 3) 8)
+(TEST 'RECIP (RECIP 2.0) 0.5)
+
+;; Comparison tests
+(TEST 'EQ (EQ 1 1) T)
+(TEST 'EQ (EQ 1 2) NIL)
+(TEST 'EQUAL (EQUAL '(1 2) '(1 2)) T)
+(TEST 'EQUAL (EQUAL '(1 2) '(2 1)) NIL)
+(TEST 'NULL (NULL NIL) T)
+(TEST 'NULL (NULL '()) T)
+(TEST 'NULL (NULL 1) NIL)
+(TEST 'ATOM (ATOM 1) T)
+(TEST 'ATOM (ATOM '(1 2)) NIL)
+(TEST 'ATOM (ATOM 'A) T)
+(TEST 'ATOM (ATOM 3.14) T)
+(TEST 'NUMBERP (NUMBERP 1) T)
+(TEST 'NUMBERP (NUMBERP 'A) NIL)
+(TEST 'NUMBERP (NUMBERP 1.2) T)
+(TEST 'NUMBERP (NUMBERP 0) T)
+(TEST 'SYMBOLP (SYMBOLP 'A) T)
+(TEST 'SYMBOLP (SYMBOLP 1) NIL)
+(TEST 'LISTP (LISTP '(1 2)) T)
+(TEST 'LISTP (LISTP 1) NIL)
+(TEST 'LISTP (LISTP '()) T)
+
+;; List operation tests
+(TEST 'CAR (CAR '(1 2 3)) 1)
+(TEST 'CDR (CDR '(1 2 3)) '(2 3))
+(TEST 'CONS (CONS 1 '(2 3)) '(1 2 3))
+(TEST 'CONS (CONS 'A 'B) '(A . B))
+(TEST 'LIST (LIST 1 2 3) '(1 2 3))
+(TEST 'LIST (LIST) NIL)
+(TEST 'REVERSE (REVERSE '(1 2 3)) '(3 2 1))
+(TEST 'LENGTH (LENGTH '(1 2 3)) 3)
+(TEST 'APPEND (APPEND '(1 2) '(3 4)) '(1 2 3 4))
+(TEST 'APPEND (APPEND '() '(3 4)) '(3 4))
+(TEST 'NCONC (NCONC '(1 2) '(3 4)) '(1 2 3 4))
+(TEST 'NCONC (NCONC '() '(3 4)) '(3 4))
+
+;; LOGIC
+(TEST 'AND (AND T NIL T) NIL)
+(TEST 'AND (AND T T T) T)
+(TEST 'OR (OR 1 T) 1)
+(TEST 'OR (OR NIL T) T)
+
+;; Conditional/control tests
+(TEST 'IF (IF T 1 2) 1)
+(TEST 'IF (IF NIL 1 2) 2)
+(TEST 'PROGN (PROGN (EQ 1 1) 2) 2)
+(TEST 'PROG (PROG () (EQ 1 1) 2) 2)
+
+;; Macro/function tests
+(TEST 'LAMBDA ((LAMBDA (X) (PLUS X 1)) 5) 6)
+(MACRO INC (X) `(PLUS ,X 1))
+(SETQ A 1)
+(TEST 'MACRO (INC A) 2) 
+
+;; Print/utility tests
+(TEST 'GENSYM (GENSYM) 'g00001) 
+(TEST 'GENSYM (GENSYM) 'g00002) 
+(PROP 'ASDF 'A 1)
+(TEST 'GET (GET 'ASDF 'A) 1)
+(TEST 'GET (GET 'AS 'A) NIL)
+(TEST 'GET (GET 'ASDF 'B) NIL)
+
+(PRINT 'all-tests-done)
