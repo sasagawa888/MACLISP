@@ -41,30 +41,30 @@
 (TEST 'LISTP (LISTP '()) T)
 
 ;; List operation tests
-;(TEST 'CAR (CAR '(1 2 3)) 1)
-;(TEST 'CDR (CDR '(1 2 3)) '(2 3))
-;(TEST 'CONS (CONS 1 '(2 3)) '(1 2 3))
-;(TEST 'CONS (CONS 'A 'B) '(A . B))
-;(TEST 'LIST (LIST 1 2 3) '(1 2 3))
-;(TEST 'LIST (LIST) NIL)
-;(TEST 'REVERSE (REVERSE '(1 2 3)) '(3 2 1))
-;(TEST 'LENGTH (LENGTH '(1 2 3)) 3)
-;(TEST 'APPEND (APPEND '(1 2) '(3 4)) '(1 2 3 4))
-;(TEST 'APPEND (APPEND '() '(3 4)) '(3 4))
-;(TEST 'NCONC (NCONC '(1 2) '(3 4)) '(1 2 3 4))
-;(TEST 'NCONC (NCONC '() '(3 4)) '(3 4))
+(TEST 'CAR (CAR '(1 2 3)) 1)
+(TEST 'CDR (CDR '(1 2 3)) '(2 3))
+(TEST 'CONS (CONS 1 '(2 3)) '(1 2 3))
+(TEST 'CONS (CONS 'A 'B) '(A . B))
+(TEST 'LIST (LIST 1 2 3) '(1 2 3))
+(TEST 'LIST (LIST) NIL)
+(TEST 'REVERSE (REVERSE '(1 2 3)) '(3 2 1))
+(TEST 'LENGTH (LENGTH '(1 2 3)) 3)
+(TEST 'APPEND (APPEND '(1 2) '(3 4)) '(1 2 3 4))
+(TEST 'APPEND (APPEND '() '(3 4)) '(3 4))
+(TEST 'NCONC (NCONC '(1 2) '(3 4)) '(1 2 3 4))
+(TEST 'NCONC (NCONC '() '(3 4)) '(3 4))
 
 ;; LOGIC
-;(TEST 'AND (AND T NIL T) NIL)
-;(TEST 'AND (AND T T T) T)
-;(TEST 'OR (OR 1 T) 1)
-;(TEST 'OR (OR NIL T) T)
+(TEST 'AND (AND T NIL T) NIL)
+(TEST 'AND (AND T T T) T)
+(TEST 'OR (OR 1 T) 1)
+(TEST 'OR (OR NIL T) T)
 
 ;; Conditional/control tests
 ;(TEST 'IF (IF T 1 2) 1)
 ;(TEST 'IF (IF NIL 1 2) 2)
-;(TEST 'PROGN (PROGN (EQ 1 1) 2) 2)
-;(TEST 'PROG (PROG () (EQ 1 1) 2) 2)
+(TEST 'PROGN (PROGN (EQ 1 1) 2) 2)
+(TEST 'PROG (PROG () (EQ 1 1) 2) 2)
 
 ;; Macro/function tests
 ;(TEST 'LAMBDA ((LAMBDA (X) (PLUS X 1)) 5) 6)
@@ -73,8 +73,8 @@
 ;(TEST 'MACRO (INC A) 2) 
 
 ;; Print/utility tests
-;(TEST 'GENSYM (GENSYM) 'g00001) 
-;(TEST 'GENSYM (GENSYM) 'g00002) 
+(TEST 'GENSYM (GENSYM) 'g00001) 
+(TEST 'GENSYM (GENSYM) 'g00002) 
 ;(PROP 'ASDF 'A 1)
 ;(TEST 'GET (GET 'ASDF 'A) 1)
 ;(TEST 'GET (GET 'AS 'A) NIL)
