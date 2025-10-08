@@ -8,10 +8,10 @@ It has no significance in terms of computer science.
 Start the system from the terminal by running:
 
 ```
-lisp filename
+maclisp filename
 
 e.g.
-lisp winston.lsp
+maclisp winston.lsp
 ```
 
 ## REPL
