@@ -221,6 +221,9 @@ void cellprint(int addr)
     case SYM:
 	printf("SYM    ");
 	break;
+    case STR:
+	printf("STR    ");
+	break;
     case LIS:
 	printf("LIS    ");
 	break;
@@ -375,7 +378,7 @@ int atomp(int addr)
 {
     if (integerp(addr))
 	return (1);
-    if ((IS_FLT(addr)) || (IS_SYMBOL(addr)))
+    if (IS_FLT(addr) || IS_STR(addr) || IS_SYMBOL(addr))
 	return (1);
     else
 	return (0);
@@ -397,6 +400,16 @@ int floatp(int addr)
     if (addr >= HEAPSIZE || addr < 0)
 	return (0);
     else if (IS_FLT(addr))
+	return (1);
+    else
+	return (0);
+}
+
+int stringp(int addr)
+{
+    if (addr >= HEAPSIZE || addr < 0)
+	return (0);
+    else if (IS_STR(addr))
 	return (1);
     else
 	return (0);
@@ -709,6 +722,15 @@ int makeflt(double floatn)
     return (addr);
 }
 
+int makestr(char *name)
+{
+    int addr;
+
+    addr = freshcell();
+    SET_TAG(addr, STR);
+    SET_NAME(addr, name);
+    return (addr);
+}
 
 
 int makesym(char *name)
@@ -817,6 +839,15 @@ void gettoken(void)
     case '.':
 	stok.type = DOT;
 	break;
+    case '"':
+    pos = 0;
+	while (((c = fgetc(input_stream)) != EOL) && (pos < BUFSIZE) &&
+		   (c != '"'))
+	stok.buf[pos++] = c;
+
+	stok.buf[pos] = NUL;
+    stok.type = STRING;
+    return;
     case '`':
 	stok.type = BACKQUOTE;
 	break;
@@ -980,6 +1011,8 @@ int read(void)
 	return (makeint(atoi(stok.buf)));
     case FLOAT:
 	return (makeflt(atof(stok.buf)));
+    case STRING:
+    return (makestr(stok.buf));
     case SYMBOL:
 	return (makesym(stok.buf));
     case QUOTE:
@@ -1037,6 +1070,9 @@ void print(int addr)
 	printf("%g", GET_FLT(addr));
 	if (GET_FLT(addr) - (int) GET_FLT(addr) == 0.0)
 	    printf(".0");
+	break;
+    case STR:
+	printf("\"%s\"", GET_NAME(addr));
 	break;
     case SYM:
 	printf("%s", GET_NAME(addr));
@@ -1111,7 +1147,7 @@ int eval(int addr)
             longjmp(buf, 1);
     }
     if (atomp(addr)) {
-	if (numberp(addr))
+	if (numberp(addr) || stringp(addr))
 	    return (addr);
 	if (symbolp(addr)) {
 	    res = findsym(addr);

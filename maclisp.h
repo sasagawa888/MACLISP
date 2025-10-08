@@ -17,7 +17,7 @@ written by kenichi sasagawa 2025/9~
 
 #define DEBUG longjmp(buf, 2);
 
-typedef enum tag {EMP,NUM,FLTN,SYM,LIS,SUBR,FSUBR,FUNC,MACRO} tag;
+typedef enum tag {EMP,NUM,FLTN,STR,SYM,LIS,SUBR,FSUBR,FUNC,MACRO} tag;
 typedef enum flag {FRE,USE} flag;
 
 
@@ -36,7 +36,7 @@ typedef struct cell {
 } cell;
 
 
-typedef enum toktype {LPAREN,RPAREN,QUOTE,DOT,BACKQUOTE,COMMA,ATMARK,INTEGER,FLOAT,SYMBOL,OTHER,FILEEND} toktype;
+typedef enum toktype {LPAREN,RPAREN,QUOTE,DOT,BACKQUOTE,COMMA,ATMARK,INTEGER,FLOAT,STRING,SYMBOL,OTHER,FILEEND} toktype;
 typedef enum backtrack {GO,BACK} backtrack;
 
 typedef struct token {
@@ -68,6 +68,7 @@ typedef struct token {
 #define IS_SYMBOL(addr)		heap[addr].tag == SYM
 #define IS_NUMBER(addr)		heap[addr].tag == NUM
 #define IS_FLT(addr)		heap[addr].tag == FLTN
+#define IS_STR(addr)		heap[addr].tag == STR
 #define IS_LIST(addr)		heap[addr].tag == LIS
 #define IS_NIL(addr)        (addr == 0 || addr == 1)
 #define IS_SUBR(addr)		heap[addr].tag == SUBR
