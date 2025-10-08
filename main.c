@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     initcell();
     initsubr();
 
+    /*
     if (argc < 2) {
 	fprintf(stderr, "Usage: %s <lisp_file>\n", argv[0]);
 	return 1;
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
 	eval(exp);
     }
     fclose(input_stream);
-
+    */
     input_stream = stdin;
     int ret = setjmp(buf);
 
@@ -1569,6 +1570,7 @@ void initsubr(void)
     defsubr("member", f_member);
     defsubr("set", f_set);
     defsubr("not", f_not);
+    defsubr("load", f_load);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -2624,6 +2626,30 @@ int f_or(int arglist)
 	arglist = cdr(arglist);
     }
     return (NIL);
+}
+
+int f_load(int arglist)
+{
+    int arg1;
+    checkarg(LEN1_TEST, "load", arglist);
+    //checkarg(STR_TEST, "load", car(arglist));
+    arg1 = car(arglist);
+
+    input_stream = fopen(GET_NAME(arg1), "r");
+    if (!input_stream) 
+	error(CANT_READ_ERR,"load",arg1);
+    
+
+    int exp;
+    while (1) {
+	exp = read();
+	if (exp == EOF)
+	    break;
+	eval(exp);
+    }
+    fclose(input_stream);
+    input_stream = stdin;
+    return (T);
 }
 
 //--------quasi-quote---------------
