@@ -22,6 +22,7 @@ Exit the interpreter by typing:
 ```
 (quit)
 ```
+![](start.png)
 
 ## Functions
 ```
