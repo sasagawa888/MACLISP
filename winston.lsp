@@ -25,4 +25,24 @@
           ((EQUAL N 1) 1)
           (T (PLUS (FIBONACCI (DIFFERENCE N 1))
                    (FIBONACCI (DIFFERENCE N 2))))))
+
+(DEFUN COUNTATOMS (S)
+    (COND ((NULL S) 0)
+          ((ATOM S) 1)
+          (T (PLUS (COUNTATOMS (CAR S))
+                   (COUNTATOMS (CDR S))))))
+
+(DEFUN MYSTERY (S)
+    (COND ((NULL S) L)
+          ((ATOM S) 0)
+          (T (MAX (ADD1 (MYSTERY (CAR S)))
+                  (MYSTERY (CDR S))))))
+
+(DEFUN STRANGE (L)
+    (COND ((NULL L) NIL)
+          ((ATOM L) L)
+          (T (CONS (STRANGE (CAR L))
+                   (STRANGE (CDR L))))))
+                   
+
                    
