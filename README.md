@@ -1,6 +1,6 @@
 # MACLISP-like Interpreter
 
-This project is an attempt to recreate **MACLISP** in 1981.  
+This project is an attempt to recreate **MACLISP** in 1980.  
 It is based on a small C Lisp interpreter and aims to provide a MACLISP-like experience.
 
 ## Installation
