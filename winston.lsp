@@ -19,3 +19,10 @@
 (DEFUN AUGMENT (ITEM BAG)
     (COND ((MEMBER ITEM BAG) BAG)
           (T (CONS ITEM BAG))))
+
+(DEFUN FIBONACCI (N)
+    (COND ((ZEROP N) 1)
+          ((EQUAL N 1) 1)
+          (T (PLUS (FIBONACCI (DIFFERENCE N 1))
+                   (FIBONACCI (DIFFERENCE N 2))))))
+                   
