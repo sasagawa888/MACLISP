@@ -8,10 +8,9 @@ It has no significance in terms of computer science.
 Start the system from the terminal by running:
 
 ```
-maclisp filename
+maclisp
 
-e.g.
-maclisp winston.lsp
+> (load "winston.lsp")
 ```
 
 ## REPL
@@ -39,7 +38,6 @@ Example:
 ```
 
 ## Sample Codes
-In my reimplementation, I treat DEFINE as an FSUBR, so no explicit QUOTE is needed around lambda expressions.
 
 ```
 ; THIS IS COMMENT

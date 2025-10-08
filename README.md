@@ -16,7 +16,7 @@ Usage
 
 Start the interpreter by running:
 ```
-maclisp winston.lsp
+maclisp
 ```
 Exit the interpreter by typing:
 ```
