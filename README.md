@@ -37,7 +37,7 @@ Exit the interpreter by typing:
 ## Example
 
 ```
-MACLISP 1981
+MACLISP 1980
 > (defun foo (x) (x))
 T
 > (foo 3)
