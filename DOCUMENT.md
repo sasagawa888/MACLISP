@@ -45,6 +45,9 @@ Example:
 
 ```
 
+## ledit
+ledit launches an editor. Please set your preferred editor in the EDITOR environment variable. If none is specified, it will call Edlis, which comes with Easy-ISLisp.
+
 ## Garbage Collection
 Using (gbc t) enables output during garbage collection.
 To disable it, use (gbc nil).
@@ -86,7 +89,7 @@ A prompt >> appears each time eval is called, waiting for user input. Pressing E
 
 example:
 ```
-MACLISP 1981
+MACLISP 1980
 > (step t)
 T
 > (foo 1)
