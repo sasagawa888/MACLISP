@@ -1552,6 +1552,7 @@ void initsubr(void)
     defsubr("read", f_read);
     defsubr("eval", f_eval);
     defsubr("apply", f_apply);
+    defsubr("funcall", f_funcall);
     defsubr("print", f_print);
     defsubr("prin1", f_prin1);
     defsubr("terpri", f_terpri);
@@ -2370,6 +2371,14 @@ int f_apply(int arglist)
     arg1 = findsym(car(arglist));
     arg2 = cadr(arglist);
     return (apply(arg1, arg2));
+}
+
+int f_funcall(int arglist)
+{
+    int arg1,arg2;
+    arg1 = findsym(car(arglist));
+    arg2 = cdr(arglist);
+    return(apply(arg1,arg2));
 }
 
 int f_maplist(int arglist)
