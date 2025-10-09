@@ -4,8 +4,8 @@ written by kenichi sasagawa
 
 idea sketch
 lisp-2 
-symbol -> cdr entity of function
-symbol -> car value of global variable
+symbol -> car entity of function
+symbol -> cdr value of global variable
 ep = assoc-list local-variables
 */
 
