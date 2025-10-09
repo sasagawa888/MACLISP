@@ -1534,7 +1534,7 @@ void initsubr(void)
     defsubr("nconc", f_nconc);
     defsubr("rplaca", f_rplaca);
     defsubr("rplacd", f_rplacd);
-    defsubr("maplist", f_maplist);
+    defsubr("mapcar", f_maplist);
     defsubr("mapcon", f_mapcon);
     defsubr("map", f_map);
     defsubr("eq", f_eq);
