@@ -2367,7 +2367,7 @@ int f_apply(int arglist)
     checkarg(LIST_TEST, "apply", cadr(arglist));
     int arg1, arg2;
 
-    arg1 = car(arglist);
+    arg1 = findsym(car(arglist));
     arg2 = cadr(arglist);
     return (apply(arg1, arg2));
 }
@@ -2377,7 +2377,7 @@ int f_maplist(int arglist)
     int arg1, arg2;
     checkarg(LEN2_TEST, "maplist", arglist);
     checkarg(LIST_TEST, "maplist", cadr(arglist));
-    arg1 = car(arglist);
+    arg1 = findsym(car(arglist));
     arg2 = cadr(arglist);
     return (maplist(arg2, arg1));
 

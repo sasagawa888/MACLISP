@@ -47,8 +47,8 @@
 (DEFUN COUNTATOMS* (S)
     (COND ((NULL S) 0)
           ((ATOM S) 1)
-          (T (APPLY PLUS (MAPCAR COUNTATOMS* S)))))
+          (T (APPLY 'PLUS (MAPCAR 'COUNTATOMS* S)))))
 
-;;;  (T (APPLY 'PLUS (MAPCAR 'COUNTATOMS* S)))))
+
 
                    
