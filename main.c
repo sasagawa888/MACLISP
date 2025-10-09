@@ -1,5 +1,12 @@
 /*
+MACLISP 1980
 written by kenichi sasagawa
+
+idea sketch
+lisp-2 
+symbol -> cdr entity of function
+symbol -> car value of global variable
+ep = assoc-list local-variables
 */
 
 #include <stdio.h>
