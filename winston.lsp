@@ -49,6 +49,24 @@
           ((ATOM S) 1)
           (T (APPLY 'PLUS (MAPCAR 'COUNTATOMS* S)))))
 
+(DEFUN POWER (M N)
+    (PROG (RESULT EXPONENT)
+          (SETQ RESULT 1)
+          (SETQ EXPONENT N)
+          LOOP
+          (COND ((ZEROP EXPONENT) (RETURN RESULT)))
+          (SETQ RESULT (TIMES M RESULT))
+          (SETQ EXPONENT (SUB1 EXPONENT))
+          (GO LOOP)))
 
+
+(DEFUN BORE-ME ()
+    (PROG (N)
+          (SETQ N 0)
+          LOOP
+          (PRINT (TIMES N N))
+          (SETQ N (ADD1 N))
+          (GO LOOP)))
+          
 
                    
