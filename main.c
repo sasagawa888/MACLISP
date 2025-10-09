@@ -16,6 +16,7 @@ ep = assoc-list local-variables
 #include <setjmp.h>
 #include <float.h>
 #include <math.h>
+#include <signal.h>
 #include "maclisp.h"
 
 cell heap[HEAPSIZE];
@@ -32,6 +33,12 @@ int return_flag = 0;
 int step_flag = 0;
 int gennum = 1;
 int oblist_len;
+int ctrl_c_flag;
+
+void signal_handler_c(int signo)
+{
+    ctrl_c_flag = 1;
+}
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +47,7 @@ int main(int argc, char *argv[])
     input_stream = stdin;
     initcell();
     initsubr();
-
+    signal(SIGINT, signal_handler_c);
     
     input_stream = stdin;
     int ret = setjmp(buf);
@@ -249,6 +256,7 @@ void heapdump(int start, int end)
 void gbc(void)
 {
     int addr;
+
     if (gbc_flag) {
 	printf("enter GBC free=%d\n", fc);
 	fflush(stdout);
@@ -356,6 +364,10 @@ void clrcell(int addr)
 // If the number of free cells falls below a certain threshold, trigger GBC.
 void checkgbc(void)
 {
+    if (ctrl_c_flag){
+        ctrl_c_flag = 0;
+        longjmp(buf, 1);
+    }
     if (fc < FREESIZE)
 	gbc();
 }
