@@ -5,8 +5,7 @@ written by kenichi sasagawa
 idea sketch
 lisp-2 
 symbol -> car entity of function
-symbol -> cdr value of global variable
-ep = assoc-list local-variables
+ep = assoc-list variables
 */
 
 #include <stdio.h>
@@ -514,16 +513,7 @@ int fsubrp(int addr)
 
 int functionp(int addr)
 {
-    int val;
-
-    if(symbolp(addr)){
-    val = findsym(addr);
-    if (val != NO)
-	return (IS_FUNC(val));
-    } else if(listp(addr) && functionp(car(addr)))
-    return(IS_FUNC(eval(addr)));
-    
-	return (0);
+	return (IS_FUNC(GET_BIND(addr)));
 }
 
 int lambdap(int addr)
@@ -1182,7 +1172,7 @@ int eval(int addr)
             print(evlis(cdr(addr)));
             printf("\n");
         }
-	    res = apply(eval(car(addr)), evlis(cdr(addr)));
+	    res = apply(GET_BIND(car(addr)), evlis(cdr(addr)));
         if (GET_TR(sym) > 1){
             n = GET_TR(sym);
             for(i=2;i<n;i++){
@@ -2482,7 +2472,7 @@ void bindfunc1(int sym, int addr){
     SET_TAG(val,FUNC);
     SET_BIND(val,addr);
     SET_CDR(val,0);
-    bindsym(sym,val);
+    SET_BIND(sym,val);
 }
 
 
@@ -2495,7 +2485,7 @@ int f_defun(int arglist){
     arg1 = car(arglist);
     arg2 = cdr(arglist);
     bindfunc1(arg1,arg2);
-    return(T);
+    return(arg1);
 }
 
 
