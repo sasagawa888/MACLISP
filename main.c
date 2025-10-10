@@ -1579,6 +1579,7 @@ void initsubr(void)
     defsubr("not", f_not);
     defsubr("load", f_load);
     defsubr("ledit", f_ledit);
+    defsubr("subst", f_subst);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -2436,6 +2437,30 @@ int f_not(int arglist)
 	return (T);
     else
 	return (NIL);
+}
+
+int subst(int x, int y, int lis)
+{
+    if(nullp(lis))
+        return(NIL);
+    else if(eqp(x,lis))
+        return(y);
+    else if(atomp(lis))
+        return(lis);
+    else return(cons(subst(x,y,car(lis)),
+                    (subst(x,y,cdr(lis)))));
+}
+
+int f_subst(int arglist)
+{
+    int arg1,arg2,arg3;
+
+    checkarg(LIST_TEST,"subst",caddr(arglist));
+    arg1 = car(arglist);
+    arg2 = cadr(arglist);
+    arg3 = caddr(arglist);
+
+    return(subst(arg1,arg2,arg3));
 }
 
 

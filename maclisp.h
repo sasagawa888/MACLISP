@@ -251,6 +251,7 @@ int f_eq(int addr);
 int f_equal(int addr);
 int f_set(int addr);
 int f_not(int addr);
+int f_subst(int addr);
 int f_quote(int addr);
 int f_setq(int addr);
 int f_defun(int addr);
