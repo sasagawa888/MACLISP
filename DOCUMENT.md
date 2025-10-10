@@ -61,7 +61,7 @@ You can force garbage collection by using (gbc 1).
 example
 ```
 MACLISP 1981
-> (trace 'fact)
+> (trace fact)
 T
 > (fact 3)
 ENTER FACT(3)
@@ -73,7 +73,7 @@ ENTER FACT(3)
  RETURN FACT 2
 RETURN FACT 6
 6
-> (untrace '(fact))
+> (untrace fact)
 T
 > (fact 3)
 6
