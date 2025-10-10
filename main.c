@@ -1558,8 +1558,8 @@ void initsubr(void)
     defsubr("print", f_print);
     defsubr("prin1", f_prin1);
     defsubr("terpri", f_terpri);
-    defsubr("trace", f_trace);
-    defsubr("untrace", f_untrace);
+    deffsubr("trace", f_trace);
+    deffsubr("untrace", f_untrace);
     defsubr("gensym", f_gensym);
     defsubr("step", f_step);
     defsubr("prop", f_prop);
@@ -2290,12 +2290,9 @@ int f_trace(int arglist)
 int f_untrace(int arglist)
 {
     int arg1;
-    checkarg(LIST_TEST,"untrace",car(arglist));
+    checkarg(SYMBOL_TEST,"untrace",car(arglist));
     arg1 = car(arglist);
-    while(!nullp(arg1)){
-        SET_TR(car(arg1),0);
-        arg1 = cdr(arg1);
-    }
+    SET_TR(arg1,0);
     return(T);
 }
 
