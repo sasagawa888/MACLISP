@@ -526,13 +526,7 @@ int lambdap(int addr)
 
 int macrop(int addr)
 {
-    int val;
-
-    val = findsym(addr);
-    if (val != NO)
-	return (IS_MACRO(val));
-    else
-	return (0);
+	return (GET_BIND(IS_MACRO(addr)));
 }
 
 //--------------list---------------------
@@ -959,8 +953,6 @@ int symboltoken(char buf[])
     int i;
     char c;
 
-    if (isdigit(buf[0]))
-	return (0);
 
     i = 0;
     while ((c = buf[i]) != NUL)
@@ -1188,7 +1180,7 @@ int eval(int addr)
         return(res);
     }
 	else if (macrop(car(addr)))
-	    return (apply(eval(car(addr)), cdr(addr)));
+	    return (apply(GET_BIND(car(addr)), cdr(addr)));
 
     }
     error(CANT_FIND_ERR, "eval", addr);
@@ -1359,6 +1351,7 @@ void error(int errnum, char *fun, int arg)
 	}
     }
     printf("\n");
+    input_stream = stdin;
     longjmp(buf, 1);
 }
 
@@ -1513,6 +1506,21 @@ void bindmacro(int sym, int addr)
     bindsym(sym, val2);
 }
 
+int bindmacro1(int addr)
+{
+    int val1, val2;
+
+    val1 = freshcell();
+    SET_TAG(val1, FUNC);
+    SET_BIND(val1, addr);
+    SET_CDR(val1, 0);
+    val2 = freshcell();
+    SET_TAG(val2, MACRO);
+    SET_BIND(val2, val1);
+    SET_CDR(val2, 0);
+    return(val2);
+}
+
 void initsubr(void)
 {
     defsubr("plus", f_plus);
@@ -1586,6 +1594,7 @@ void initsubr(void)
     deffsubr("defun", f_defun);
     deffsubr("lambda", f_lambda);
     deffsubr("defmacro", f_defmacro);
+    deffsubr("macro", f_macro);
     deffsubr("if", f_if);
     deffsubr("progn", f_progn);
     deffsubr("prog", f_prog);
@@ -2443,8 +2452,8 @@ int subst(int x, int y, int lis)
 {
     if(nullp(lis))
         return(NIL);
-    else if(eqp(x,lis))
-        return(y);
+    else if(eqp(y,lis))
+        return(x);
     else if(atomp(lis))
         return(lis);
     else return(cons(subst(x,y,car(lis)),
@@ -2499,14 +2508,23 @@ void bindfunc1(int sym, int addr){
 
 
 int f_defun(int arglist){
-	int arg1,arg2;
+	int arg1,arg2,macro;
     
+    if(!eqp(cadr(arglist),makesym("macro"))){
     checkarg(SYMBOL_TEST, "defun", car(arglist));
     checkarg(LIST_TEST, "defun", cadr(arglist));
     checkarg(LIST_TEST, "defun" ,cddr(arglist));
     arg1 = car(arglist);
     arg2 = cdr(arglist);
     bindfunc1(arg1,arg2);
+    } else {
+    checkarg(SYMBOL_TEST, "defun", car(arglist));
+    checkarg(LIST_TEST, "defun" ,cdr(arglist)); 
+    arg1 = car(arglist);
+    arg2 = cdr(arglist);
+    macro = eval(arg2);
+    SET_BIND(arg1,macro);   
+    }
     return(arg1);
 }
 
@@ -2534,7 +2552,12 @@ int f_defmacro(int arglist)
     return (T);
 }
 
-
+int f_macro(int arglist)
+{
+    checkarg(LEN2_TEST, "macro", arglist);
+    checkarg(LIST_TEST, "macro", car(arglist));
+    return(bindmacro1(arglist));
+}
 
 int f_if(int arglist)
 {

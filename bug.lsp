@@ -1,0 +1,3 @@
+
+(DEFUN FOO MACRO (X) (SUBST (CAR X) '1ST '(A B C D)))
+
