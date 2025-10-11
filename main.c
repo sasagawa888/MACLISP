@@ -42,7 +42,7 @@ void signal_handler_c(int signo)
 int main(int argc, char *argv[])
 {
 
-    printf("MACLISP 1980\n");
+    printf("MACLISP 1977\n");
     input_stream = stdin;
     initcell();
     initsubr();
