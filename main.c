@@ -1120,6 +1120,62 @@ void printlist(int addr)
     }
 }
 
+void princ(int addr)
+{
+    if (integerp(addr)) {
+	printf("%d", GET_INT(addr));
+	return;
+    }
+    switch (GET_TAG(addr)) {
+    case FLTN:
+	printf("%g", GET_FLT(addr));
+	if (GET_FLT(addr) - (int) GET_FLT(addr) == 0.0)
+	    printf(".0");
+	break;
+    case STR:
+	printf("%s", GET_NAME(addr));
+	break;
+    case SYM:
+    char c,str[SYMSIZE];
+    int pos;
+    memset(str,0,SYMSIZE);
+    pos = 0;
+    strcpy(str,GET_NAME(addr));
+    c = str[pos++];
+    while(c != 0){
+        if(c != '|')
+            printf("%c",c);
+        c = str[pos++];
+    }
+	break;
+    case SUBR:
+	printf("<subr>");
+	break;
+    case FSUBR:
+	printf("<fsubr>");
+	break;
+    case EXPR:
+	printf("<expr>");
+	break;
+    case FEXPR:
+	printf("<fexpr>");
+	break;
+    case MACRO:
+	printf("<macro>");
+	break;
+    case LIS:{
+	    printf("(");
+	    printlist(addr);
+	    break;
+	}
+    default:
+	printf("<undef>");
+	break;
+    }
+}
+
+
+
 //--------eval---------------        
 void print_env(void){
     int i,n,env;
@@ -1601,6 +1657,7 @@ void initsubr(void)
     defsubr("funcall", f_funcall);
     defsubr("print", f_print);
     defsubr("prin1", f_prin1);
+    defsubr("princ", f_princ);
     defsubr("terpri", f_terpri);
     deffsubr("trace", f_trace);
     deffsubr("untrace", f_untrace);
@@ -2341,6 +2398,14 @@ int f_prin1(int arglist)
     print(car(arglist));
     return (T);
 }
+
+int f_princ(int arglist)
+{
+    checkarg(LEN1_TEST, "princ", arglist);
+    princ(car(arglist));
+    return (T);
+}
+
 
 int f_terpri(int arglist)
 {
