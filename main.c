@@ -514,7 +514,7 @@ int lambdap(int addr)
 
 int macrop(int addr)
 {
-	return (GET_BIND(IS_MACRO(addr)));
+	return (IS_MACRO(GET_BIND(addr)));
 }
 
 //--------------list---------------------
@@ -562,6 +562,12 @@ int cadar(int addr)
 {
     return (car(cdr(car(addr))));
 }
+
+int cadddr(int addr)
+{
+    return (car(cdr(cdr(cdr(addr)))));
+}
+
 
 
 int cons(int car, int cdr)
@@ -1200,7 +1206,7 @@ int apply(int func, int args)
 	    macrofunc = GET_BIND(func);
 	    varlist = car(GET_BIND(macrofunc));
 	    body = cdr(GET_BIND(macrofunc));
-	    bindarg(varlist, args);
+	    bindarg(varlist, list1(cons(makesym("_"),args)));
 	    while (!(IS_NIL(body))) {
 		res = eval(car(body));
 		body = cdr(body);
@@ -1531,6 +1537,8 @@ void initsubr(void)
     defsubr("cadr", f_cadr);
     defsubr("caar", f_caar);
     defsubr("cddr", f_cddr);
+    defsubr("caddr", f_caddr);
+    defsubr("cadddr", f_cadddr);
     defsubr("cons", f_cons);
     defsubr("list", f_list);
     defsubr("reverse", f_reverse);
@@ -1576,6 +1584,8 @@ void initsubr(void)
     defsubr("load", f_load);
     defsubr("ledit", f_ledit);
     defsubr("subst", f_subst);
+    defsubr("functionp", f_functionp);
+    defsubr("macrop", f_macrop);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -1968,6 +1978,27 @@ int f_cddr (int arglist)
     return (caar(arg1));
 }
 
+int f_caddr (int arglist)
+{
+    int arg1;
+
+    checkarg(LEN1_TEST, "caddr", arglist);
+    arg1 = car(arglist);
+    if (atomp(arg1))
+	error(ARG_LIS_ERR, "caddr", arg1);
+    return (caddr(arg1));
+}
+
+int f_cadddr (int arglist)
+{
+    int arg1;
+
+    checkarg(LEN1_TEST, "cadddr", arglist);
+    arg1 = car(arglist);
+    if (atomp(arg1))
+	error(ARG_LIS_ERR, "cadddr", arg1);
+    return (cadddr(arg1));
+}
 
 int f_cons(int arglist)
 {
@@ -2721,6 +2752,25 @@ int f_ledit(int arglist)
     f_load(arglist);
     return (T);
 }
+
+int f_functionp(int arglist)
+{
+    checkarg(LEN1_TEST,"functionp",arglist);
+    if(functionp(car(arglist)))
+        return(T);
+    else 
+        return(NIL);
+}
+
+int f_macrop(int arglist)
+{
+    checkarg(LEN1_TEST,"macrop",arglist);
+    if(macrop(car(arglist)))
+        return(T);
+    else 
+        return(NIL);
+}
+
 
 //--------quasi-quote---------------
 int quasi_transfer1(int x)
