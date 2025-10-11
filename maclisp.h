@@ -290,7 +290,7 @@ int f_trace(int addr);
 int f_untrace(int addr);
 int f_gensym(int addr);
 int f_step(int addr);
-int f_prop(int addr);
+int f_putprop(int addr);
 int f_get(int addr);
 int f_progn(int addr);
 int f_prog(int addr);

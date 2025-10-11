@@ -1594,7 +1594,7 @@ void initsubr(void)
     deffsubr("untrace", f_untrace);
     defsubr("gensym", f_gensym);
     defsubr("step", f_step);
-    defsubr("prop", f_prop);
+    defsubr("putprop", f_putprop);
     defsubr("get", f_get);
     defsubr("greaterp", f_greaterp);
     defsubr("lessp", f_lessp);
@@ -2382,12 +2382,12 @@ int f_step(int arglist){
 }
 
 
-int f_prop(int arglist)
+int f_putprop(int arglist)
 {
     int arg1,arg2,arg3,plist,res;
-    checkarg(LEN3_TEST,"prop",arglist);
-    checkarg(SYMBOL_TEST,"prop",car(arglist));
-    checkarg(SYMBOL_TEST,"prop",cadr(arglist));
+    checkarg(LEN3_TEST,"putprop",arglist);
+    checkarg(SYMBOL_TEST,"putprop",car(arglist));
+    checkarg(SYMBOL_TEST,"putprop",cadr(arglist));
     arg1 = car(arglist);
     arg2 = cadr(arglist);
     arg3 = caddr(arglist);
@@ -2399,6 +2399,20 @@ int f_prop(int arglist)
         SET_CDR(res,arg3);
     return(T);
 }
+
+int f_defprop(int arglist)
+{
+    int arg1,arg2,arg3;
+    checkarg(LEN3_TEST,"defprop",arglist);
+    checkarg(SYMBOL_TEST,"defprop",car(arglist));
+    checkarg(SYMBOL_TEST,"defprop",cadr(arglist));
+    arg1 = car(arglist);
+    arg2 = cadr(arglist);
+    arg3 = caddr(arglist);
+    SET_CDR(arg1,cons(cons(arg2,arg3),NIL));
+    return(T);
+}
+
 
 int f_get(int arglist)
 {
