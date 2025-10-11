@@ -67,4 +67,15 @@
           (PRINT (TIMES N N))
           (SETQ N (ADD1 N))
           (GO LOOP)))
-          
+
+(DEFUN BREAK FEXPR (MESSAGE)
+    (PROG (QUERY)
+          (PRINT MESSAGE)
+          LOOP
+          (PRIN1 '> ) 
+          (SET QUERY (READ))
+          (COND ((AND (NOT (ATOM QUERY))
+                      (EQUAL (CAR QUERY) 'RETURN))
+                 (RETURN (EVAL (CADR QUERY))))
+                (T (PRINT (EVAL QUERY))))
+          (GO LOOP)))
