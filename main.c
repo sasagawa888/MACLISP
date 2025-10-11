@@ -491,24 +491,12 @@ int equalp(int x, int y)
 
 int subrp(int addr)
 {
-    int val;
-
-    val = findsym(addr);
-    if (val != NO)
-	return (IS_SUBR(val));
-    else
-	return (0);
+	return (IS_SUBR(GET_BIND(addr)));
 }
 
 int fsubrp(int addr)
 {
-    int val;
-
-    val = findsym(addr);
-    if (val != NO)
-	return (IS_FSUBR(val));
-    else
-	return (0);
+	return (IS_FSUBR(GET_BIND(addr)));
 }
 
 int functionp(int addr)
@@ -1147,9 +1135,9 @@ int eval(int addr)
     else if (lambdap(car(addr)))
         return (apply(eval(car(addr)), cdr(addr)));
 	else if (subrp(car(addr)))
-	    return (apply(eval(car(addr)), evlis(cdr(addr))));
+	    return (apply(GET_BIND(car(addr)), evlis(cdr(addr))));
 	else if (fsubrp(car(addr)))
-	    return (apply(eval(car(addr)), cdr(addr)));
+	    return (apply(GET_BIND(car(addr)), cdr(addr)));
 	else if (functionp(car(addr))){
         int sym,i,n,res;
         sym = car(addr);
@@ -1488,7 +1476,7 @@ void bindfunc(char *name, tag tag, int (*func)(int))
     SET_TAG(val, tag);
     SET_SUBR(val, func);
     SET_CDR(val, 0);
-    bindsym(sym, val);
+    SET_BIND(sym,val);
 }
 
 void bindmacro(int sym, int addr)
@@ -1595,7 +1583,7 @@ void initsubr(void)
     deffsubr("lambda", f_lambda);
     deffsubr("defmacro", f_defmacro);
     deffsubr("macro", f_macro);
-    deffsubr("if", f_if);
+    //deffsubr("if", f_if);
     deffsubr("progn", f_progn);
     deffsubr("prog", f_prog);
     deffsubr("return", f_return);
