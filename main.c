@@ -1615,6 +1615,7 @@ void initsubr(void)
     defsubr("functionp", f_functionp);
     defsubr("macrop", f_macrop);
     defsubr("explode", f_explode);
+    defsubr("implode", f_implode);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -2834,6 +2835,21 @@ int f_explode(int arglist)
         temp = cdr(temp);
     }
     return(res);
+}
+
+int f_implode(int arglist)
+{
+    int arg1;
+    char str[SYMSIZE];
+
+    checkarg(SYMLIST_TEST,"implode",car(arglist));
+    arg1 = car(arglist);
+    memset(str,0,SYMSIZE);
+    while(arg1 != NIL){
+        strcat(str,GET_NAME(car(arg1)));
+        arg1 = cdr(arg1);
+    }
+    return(makesym(str));
 }
 
 //--------quasi-quote---------------
