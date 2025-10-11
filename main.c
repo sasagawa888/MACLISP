@@ -1652,6 +1652,7 @@ void initsubr(void)
     defsubr("atom", f_atomp);
     defsubr("gbc", f_gbc);
     defsubr("read", f_read);
+    defsubr("readc", f_readc);
     defsubr("eval", f_eval);
     defsubr("apply", f_apply);
     defsubr("funcall", f_funcall);
@@ -2382,6 +2383,16 @@ int f_read(int arglist)
 {
     checkarg(LEN0_TEST, "read", arglist);
     return (read());
+}
+
+int f_readc(int arglist)
+{
+    char c,str[5];
+    checkarg(LEN0_TEST, "readc", arglist);
+    memset(str,0,5);
+    c = fgetc(input_stream);
+    str[0] = c;
+    return (makesym(str));
 }
 
 int f_print(int arglist)
