@@ -68,6 +68,20 @@
           (SETQ N (ADD1 N))
           (GO LOOP)))
 
+(DEFUN APPLEP (X) (EQUAL X 'APPLE))
+
+(SETQ FRUITS '(ORANGE APPLE APPLE APPLE PEAR GRAPEFRUIT))
+
+(DEFUN APPLEP-1-0 (Y)
+    (COND ((APPLEP Y) 1)
+          (T 0)))
+
+(DEFUN COUNTAPPLES (FRUITS)
+    (APPLY 'PLUS
+           (MAPCAR '(LAMBDA (X) (COND ((EQUAL X 'APPLE) 1)
+                                      (T 0)))
+                    FRUITS)))
+
 (DEFUN BREAK FEXPR (MESSAGE)
     (PROG (QUERY)
           (PRINT MESSAGE)
@@ -79,3 +93,15 @@
                  (RETURN (EVAL (CADR QUERY))))
                 (T (PRINT (EVAL QUERY))))
           (GO LOOP)))
+
+(DEFUN TOWER-OF-HANOI (N) (TRANSFER 'A 'B 'C N))
+
+(DEFUN MOVE-DISK (FROM TO)
+    (LIST (LIST 'MOVE 'DISK 'FROM FROM 'TO TO)))
+
+(DEFUN TRANSFER (FROM TO SPARE NUMBER)
+    (COND ((EQUAL NUMBER 1) (MOVE-DISK FROM TO))
+          (T (APPEND (TRANSFER FROM SPARE TO (SUB1 NUMBER))
+                     (MOVE-DISK FROM TO)
+                     (TRANSFER SPARE TO FROM (SUB1 NUMBER))))))
+

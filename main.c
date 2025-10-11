@@ -2143,8 +2143,9 @@ int f_member(int arglist)
 
 int f_append(int arglist)
 {
-    checkarg(LEN2_TEST, "append", arglist);
-    return (append(car(arglist), cadr(arglist)));
+    if(nullp(arglist))
+        return(NIL);
+    return (append(car(arglist), f_append(cdr(arglist))));
 }
 
 int f_nconc(int arglist)
@@ -2440,16 +2441,28 @@ int f_apply(int arglist)
     checkarg(LIST_TEST, "apply", cadr(arglist));
     int arg1, arg2;
 
-    arg1 = findsym(car(arglist));
+    arg1 = car(arglist);
     arg2 = cadr(arglist);
+    if(functionp(arg1) || subrp(arg1) || fsubrp(arg1))
+        arg1 = GET_BIND(arg1);
+    else if(lambdap(arg1))
+        arg1 = eval(arg1);
+    else 
+        error(ILLEGAL_OBJ_ERR,"apply",arg1);
     return (apply(arg1, arg2));
 }
 
 int f_funcall(int arglist)
 {
     int arg1,arg2;
-    arg1 = findsym(car(arglist));
+    arg1 = car(arglist);
     arg2 = cdr(arglist);
+    if(functionp(arg1) || subrp(arg1) || fsubrp(arg1))
+        arg1 = GET_BIND(arg1);
+    else if(lambdap(arg1))
+        arg1 = eval(arg1);
+    else 
+        error(ILLEGAL_OBJ_ERR,"funcall",arg1);
     return(apply(arg1,arg2));
 }
 
@@ -2458,8 +2471,14 @@ int f_mapcar(int arglist)
     int arg1, arg2;
     checkarg(LEN2_TEST, "mapcar", arglist);
     checkarg(LIST_TEST, "mapcar", cadr(arglist));
-    arg1 = findsym(car(arglist));
+    arg1 = car(arglist);
     arg2 = cadr(arglist);
+    if(functionp(arg1) || subrp(arg1) || fsubrp(arg1))
+        arg1 = GET_BIND(arg1);
+    else if(lambdap(arg1))
+        arg1 = eval(arg1);
+    else 
+        error(ILLEGAL_OBJ_ERR,"mapcar",arg1);
     return (mapcar(arg2, arg1));
 
 }
@@ -2471,6 +2490,12 @@ int f_mapcon(int arglist)
     checkarg(LIST_TEST, "mapcon", cadr(arglist));
     arg1 = car(arglist);
     arg2 = cadr(arglist);
+    if(functionp(arg1) || subrp(arg1) || fsubrp(arg1))
+        arg1 = GET_BIND(arg1);
+    else if(lambdap(arg1))
+        arg1 = eval(arg1);
+    else 
+        error(ILLEGAL_OBJ_ERR,"mapcon",arg1);
     return (mapcon(arg2, arg1));
 
 }
@@ -2482,6 +2507,12 @@ int f_map(int arglist)
     checkarg(LIST_TEST, "map", cadr(arglist));
     arg1 = car(arglist);
     arg2 = cadr(arglist);
+    if(functionp(arg1) || subrp(arg1) || fsubrp(arg1))
+        arg1 = GET_BIND(arg1);
+    else if(lambdap(arg1))
+        arg1 = eval(arg1);
+    else 
+        error(ILLEGAL_OBJ_ERR,"map",arg1);
     return (map(arg2, arg1));
 
 }
