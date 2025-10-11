@@ -510,6 +510,12 @@ int functionp(int addr)
 	return (IS_EXPR(GET_BIND(addr)));
 }
 
+int fexprp(int addr)
+{
+	return (IS_FEXPR(GET_BIND(addr)));
+}
+
+
 int lambdap(int addr)
 {
     if(listp(addr) && car(addr) == makesym("lambda"))
@@ -1185,6 +1191,8 @@ int eval(int addr)
 	else if (macrop(car(addr)))
 	    return (apply(GET_BIND(car(addr)), cdr(addr)));
 
+    else if (fexprp(car(addr)))
+        return (apply(GET_BIND(car(addr)), cdr(addr)));
     }
     error(CANT_FIND_ERR, "eval", addr);
     return (0);
@@ -1222,6 +1230,17 @@ int apply(int func, int args)
 	    }
 	    unbind();
 	    res = eval(res);
+	    return (res);
+	}
+    case FEXPR:{
+	    varlist = car(GET_BIND(func));
+	    body = cdr(GET_BIND(func));
+	    bindarg(varlist, args);
+	    while (!(IS_NIL(body))) {
+		res = eval(car(body));
+		body = cdr(body);
+	    }
+	    unbind();
 	    return (res);
 	}
     default:
