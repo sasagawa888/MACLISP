@@ -1614,6 +1614,7 @@ void initsubr(void)
     defsubr("subst", f_subst);
     defsubr("functionp", f_functionp);
     defsubr("macrop", f_macrop);
+    defsubr("explode", f_explode);
 
     deffsubr("quote", f_quote);
     deffsubr("setq", f_setq);
@@ -2807,6 +2808,33 @@ int f_macrop(int arglist)
         return(NIL);
 }
 
+int f_explode(int arglist)
+{
+    int arg1,pos,temp,res;
+    char c,str[SYMSIZE],ch[5];
+
+    checkarg(LEN1_TEST,"explode",arglist);
+    checkarg(SYMBOL_TEST,"explode",car(arglist));
+    arg1 = car(arglist);
+    memset(str,0,SYMSIZE);
+    strcpy(str,GET_NAME(arg1));
+    temp = NIL;
+    pos = 0;
+    c = str[pos];
+    while(c != 0){
+        ch[0] = c;
+        ch[1] = 0;
+        pos++;
+        c = str[pos];
+        temp = cons(makesym(ch),temp);
+    }
+    res = NIL;
+    while(temp != NIL){
+        res = cons(car(temp),res);
+        temp = cdr(temp);
+    }
+    return(res);
+}
 
 //--------quasi-quote---------------
 int quasi_transfer1(int x)

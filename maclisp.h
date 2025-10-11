@@ -295,6 +295,7 @@ int f_get(int addr);
 int f_progn(int addr);
 int f_prog(int addr);
 int f_return(int addr);
+int f_explode(int addr);
 
 
 int quasi_transfer1(int x);
