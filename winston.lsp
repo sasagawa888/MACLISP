@@ -73,8 +73,7 @@
           (PRINT MESSAGE)
           LOOP
           (PRIN1 '> ) 
-          (SET QUERY (READ))
-          (print QUERY)
+          (SETQ QUERY (READ))
           (COND ((AND (NOT (ATOM QUERY))
                       (EQUAL (CAR QUERY) 'RETURN))
                  (RETURN (EVAL (CADR QUERY))))
