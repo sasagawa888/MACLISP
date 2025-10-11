@@ -17,7 +17,7 @@ written by kenichi sasagawa 2025/9~
 
 #define DEBUG longjmp(buf, 2);
 
-typedef enum tag {EMP,NUM,FLTN,STR,SYM,LIS,SUBR,FSUBR,FUNC,MACRO} tag;
+typedef enum tag {EMP,NUM,FLTN,STR,SYM,LIS,SUBR,FSUBR,EXPR,MACRO} tag;
 typedef enum flag {FRE,USE} flag;
 
 
@@ -73,7 +73,7 @@ typedef struct token {
 #define IS_NIL(addr)        (addr == 0 || addr == 1)
 #define IS_SUBR(addr)		heap[addr].tag == SUBR
 #define IS_FSUBR(addr)		heap[addr].tag == FSUBR
-#define IS_FUNC(addr)		heap[addr].tag == FUNC
+#define IS_FUNC(addr)		heap[addr].tag == EXPR
 #define IS_MACRO(addr)      heap[addr].tag == MACRO
 #define IS_EMPTY(addr)		heap[addr].tag	== EMP
 #define HAS_NAME(addr,x)	strcmp(heap[addr].name,x) == 0

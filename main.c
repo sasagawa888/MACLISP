@@ -227,8 +227,8 @@ void cellprint(int addr)
     case FSUBR:
 	printf("FSUBR  ");
 	break;
-    case FUNC:
-	printf("FUNC   ");
+    case EXPR:
+	printf("EXPR   ");
 	break;
     case MACRO:
 	printf("MACRO  ");
@@ -738,7 +738,7 @@ int makefunc(int addr)
     int val;
 
     val = freshcell();
-    SET_TAG(val, FUNC);
+    SET_TAG(val, EXPR);
     SET_BIND(val, addr);
     SET_CDR(val, 0);
     return (val);
@@ -1059,7 +1059,7 @@ void print(int addr)
     case FSUBR:
 	printf("<fsubr>");
 	break;
-    case FUNC:
+    case EXPR:
 	printf("<function>");
 	break;
     case MACRO:
@@ -1191,7 +1191,7 @@ int apply(int func, int args)
 	return ((GET_SUBR(func)) (args));
     case FSUBR:
 	return ((GET_SUBR(func)) (args));
-    case FUNC:{
+    case EXPR:{
 	    varlist = car(GET_BIND(func));
 	    body = cdr(GET_BIND(func));
 	    bindarg(varlist, args);
@@ -1490,7 +1490,7 @@ void bindmacro(int sym, int addr)
     int val1, val2;
 
     val1 = freshcell();
-    SET_TAG(val1, FUNC);
+    SET_TAG(val1, EXPR);
     SET_BIND(val1, addr);
     SET_CDR(val1, 0);
     val2 = freshcell();
@@ -1505,7 +1505,7 @@ int bindmacro1(int addr)
     int val1, val2;
 
     val1 = freshcell();
-    SET_TAG(val1, FUNC);
+    SET_TAG(val1, EXPR);
     SET_BIND(val1, addr);
     SET_CDR(val1, 0);
     val2 = freshcell();
@@ -2519,7 +2519,7 @@ void bindfunc1(int sym, int addr){
     int val;
 	
 	val = freshcell();
-    SET_TAG(val,FUNC);
+    SET_TAG(val,EXPR);
     SET_BIND(val,addr);
     SET_CDR(val,0);
     SET_BIND(sym,val);
