@@ -230,6 +230,9 @@ void cellprint(int addr)
     case EXPR:
 	printf("EXPR   ");
 	break;
+    case FEXPR:
+	printf("EXPR   ");
+	break;
     case MACRO:
 	printf("MACRO  ");
 	break;
@@ -302,10 +305,13 @@ void markcell(int addr)
 	markcell(cdr(addr));
     }
 
-    if ((GET_BIND(addr) != 0) && IS_FUNC(addr))
+    if ((GET_BIND(addr) != 0) && IS_EXPR(addr))
 	markcell(GET_BIND(addr));
 
     if ((GET_BIND(addr) != 0) && IS_MACRO(addr))
+	markcell(GET_BIND(addr));
+
+    if ((GET_BIND(addr) != 0) && IS_FEXPR(addr))
 	markcell(GET_BIND(addr));
 
 
@@ -501,7 +507,7 @@ int fsubrp(int addr)
 
 int functionp(int addr)
 {
-	return (IS_FUNC(GET_BIND(addr)));
+	return (IS_EXPR(GET_BIND(addr)));
 }
 
 int lambdap(int addr)
@@ -1060,7 +1066,10 @@ void print(int addr)
 	printf("<fsubr>");
 	break;
     case EXPR:
-	printf("<function>");
+	printf("<expr>");
+	break;
+    case FEXPR:
+	printf("<fexpr>");
 	break;
     case MACRO:
 	printf("<macro>");
@@ -2515,11 +2524,11 @@ int f_setq(int arglist)
 }
 
          
-void bindfunc1(int sym, int addr){
+void bindfunc1(int sym, int type, int addr){
     int val;
 	
 	val = freshcell();
-    SET_TAG(val,EXPR);
+    SET_TAG(val,type);
     SET_BIND(val,addr);
     SET_CDR(val,0);
     SET_BIND(sym,val);
@@ -2529,20 +2538,28 @@ void bindfunc1(int sym, int addr){
 int f_defun(int arglist){
 	int arg1,arg2,macro;
     
-    if(!eqp(cadr(arglist),makesym("macro"))){
+    arg1 = NIL;
+    if(!eqp(cadr(arglist),makesym("macro")) && 
+       !eqp(cadr(arglist),makesym("fexpr"))){
     checkarg(SYMBOL_TEST, "defun", car(arglist));
     checkarg(LIST_TEST, "defun", cadr(arglist));
     checkarg(LIST_TEST, "defun" ,cddr(arglist));
     arg1 = car(arglist);
     arg2 = cdr(arglist);
-    bindfunc1(arg1,arg2);
-    } else {
+    bindfunc1(arg1,EXPR,arg2);
+    } else if (eqp(cadr(arglist),makesym("macro"))){
     checkarg(SYMBOL_TEST, "defun", car(arglist));
     checkarg(LIST_TEST, "defun" ,cdr(arglist)); 
     arg1 = car(arglist);
     arg2 = cdr(arglist);
     macro = eval(arg2);
     SET_BIND(arg1,macro);   
+    } else if (eqp(cadr(arglist),makesym("fexpr"))){
+     checkarg(SYMBOL_TEST, "defun", car(arglist));
+    checkarg(LIST_TEST, "defun" ,cdr(arglist)); 
+    arg1 = car(arglist);
+    arg2 = cdr(arglist);
+    bindfunc1(arg1,FEXPR,arg2);
     }
     return(arg1);
 }
