@@ -1305,7 +1305,8 @@ void error(int errnum, char *fun, int arg)
 	}
 
     case CANT_OPEN_ERR:{
-	    printf("%s can't open of ", fun);
+	    printf("%s can't open ", fun);
+        print(arg);
 	    break;
 	}
 
@@ -1623,7 +1624,6 @@ void initsubr(void)
     deffsubr("lambda", f_lambda);
     deffsubr("defmacro", f_defmacro);
     deffsubr("macro", f_macro);
-    //deffsubr("if", f_if);
     deffsubr("progn", f_progn);
     deffsubr("prog", f_prog);
     deffsubr("return", f_return);
@@ -2769,7 +2769,7 @@ int f_load(int arglist)
 
     input_stream = fopen(GET_NAME(arg1), "r");
     if (!input_stream) 
-	error(CANT_READ_ERR,"load",arg1);
+	error(CANT_OPEN_ERR,"load",arg1);
     
 
     int exp;
