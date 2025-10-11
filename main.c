@@ -838,6 +838,17 @@ void gettoken(void)
 	stok.buf[pos] = NUL;
     stok.type = STRING;
     return;
+    case '|':
+    pos = 0;
+    stok.buf[pos++] = c;
+	while (((c = fgetc(input_stream)) != EOL) && (pos < BUFSIZE) &&
+		   (c != '|'))
+	stok.buf[pos++] = c;
+    
+    stok.buf[pos++] = c;
+	stok.buf[pos] = NUL;
+    stok.type = SYMBOL;
+    return;
     case '`':
 	stok.type = BACKQUOTE;
 	break;
