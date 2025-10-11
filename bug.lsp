@@ -1,3 +1,6 @@
 
-(DEFUN FOO MACRO (X) (SUBST (CAR X) '1ST '(A B C D)))
+(DEFUN IF FEXPR (X)
+    (COND ((EVAL (CAR X)) (EVAL (CADR X)))
+          ((CDDR X) (EVAL (CADDR X)))
+          (T NIL)))
 
