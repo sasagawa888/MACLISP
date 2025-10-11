@@ -2003,7 +2003,7 @@ int f_cddr (int arglist)
     arg1 = car(arglist);
     if (atomp(arg1))
 	error(ARG_LIS_ERR, "cddr", arg1);
-    return (caar(arg1));
+    return (cddr(arg1));
 }
 
 int f_caddr (int arglist)
