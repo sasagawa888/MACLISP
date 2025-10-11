@@ -1,5 +1,5 @@
 /*
-MACLISP 1980
+MACLISP 1977  ver1.01
 written by kenichi sasagawa
 
 idea sketch
@@ -1122,6 +1122,8 @@ void printlist(int addr)
 
 void princ(int addr)
 {
+    char c,str[SYMSIZE];
+    int pos;
     if (integerp(addr)) {
 	printf("%d", GET_INT(addr));
 	return;
@@ -1136,8 +1138,6 @@ void princ(int addr)
 	printf("%s", GET_NAME(addr));
 	break;
     case SYM:
-    char c,str[SYMSIZE];
-    int pos;
     memset(str,0,SYMSIZE);
     pos = 0;
     strcpy(str,GET_NAME(addr));
