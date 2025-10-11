@@ -657,12 +657,12 @@ int nconc(int x, int y)
     return (x);
 }
 
-int maplist(int lis, int fun)
+int mapcar(int lis, int fun)
 {
     if (nullp(lis))
 	return (NIL);
     else
-	return (cons(apply(fun, list1(car(lis))), maplist(cdr(lis), fun)));
+	return (cons(apply(fun, list1(car(lis))), mapcar(cdr(lis), fun)));
 }
 
 int mapcon(int lis, int fun)
@@ -1575,7 +1575,7 @@ void initsubr(void)
     defsubr("nconc", f_nconc);
     defsubr("rplaca", f_rplaca);
     defsubr("rplacd", f_rplacd);
-    defsubr("mapcar", f_maplist);
+    defsubr("mapcar", f_mapcar);
     defsubr("mapcon", f_mapcon);
     defsubr("map", f_map);
     defsubr("eq", f_eq);
@@ -2437,14 +2437,14 @@ int f_funcall(int arglist)
     return(apply(arg1,arg2));
 }
 
-int f_maplist(int arglist)
+int f_mapcar(int arglist)
 {
     int arg1, arg2;
-    checkarg(LEN2_TEST, "maplist", arglist);
-    checkarg(LIST_TEST, "maplist", cadr(arglist));
+    checkarg(LEN2_TEST, "mapcar", arglist);
+    checkarg(LIST_TEST, "mapcar", cadr(arglist));
     arg1 = findsym(car(arglist));
     arg2 = cadr(arglist);
-    return (maplist(arg2, arg1));
+    return (mapcar(arg2, arg1));
 
 }
 

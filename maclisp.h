@@ -245,7 +245,7 @@ int f_append(int addr);
 int f_nconc(int addr);
 int f_rplaca(int addr);
 int f_rplacd(int addr);
-int f_maplist(int addr);
+int f_mapcar(int addr);
 int f_mapcon(int addr);
 int f_map(int addr);
 int f_nullp(int addr);
