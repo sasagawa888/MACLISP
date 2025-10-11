@@ -1235,7 +1235,7 @@ int apply(int func, int args)
     case FEXPR:{
 	    varlist = car(GET_BIND(func));
 	    body = cdr(GET_BIND(func));
-	    bindarg(varlist, args);
+	    bindarg(varlist, list1(args));
 	    while (!(IS_NIL(body))) {
 		res = eval(car(body));
 		body = cdr(body);
@@ -2575,9 +2575,9 @@ int f_defun(int arglist){
     SET_BIND(arg1,macro);   
     } else if (eqp(cadr(arglist),makesym("fexpr"))){
      checkarg(SYMBOL_TEST, "defun", car(arglist));
-    checkarg(LIST_TEST, "defun" ,cdr(arglist)); 
+    checkarg(LIST_TEST, "defun" ,cddr(arglist)); 
     arg1 = car(arglist);
-    arg2 = cdr(arglist);
+    arg2 = cddr(arglist);
     bindfunc1(arg1,FEXPR,arg2);
     }
     return(arg1);
