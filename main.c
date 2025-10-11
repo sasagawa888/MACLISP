@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
   repl:
     if (ret == 0)
 	while (1) {
-	    printf("> ");
+	    printf("* ");
 	    fflush(stdout);
 	    fflush(stdin);
 	    print(eval(read()));
